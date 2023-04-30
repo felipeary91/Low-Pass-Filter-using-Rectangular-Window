@@ -15,7 +15,7 @@ H(w) = \sum_{j=0}^{N} b_k \times e^{-jwn}
 ```
 
 
-In order to test the time response of the filter you need to create the mex function in MATLAB using the command `mex -R2018a FIR_LP_Rectangular.c`. When calling the function you need to do it as follows:
+In order to test the time response of the filter you need to create the mex function in MATLAB using the command `mex -R2018a FIR_LP_Rectangular.c`. When calling the function you need to do it passing the parameters shown below:
 
 ```hs
 FIR_LP_Rectangular(input_signal, filter_order, cutoff_frequency, sampling_frequency);
