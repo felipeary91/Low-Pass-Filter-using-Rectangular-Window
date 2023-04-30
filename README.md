@@ -11,11 +11,17 @@ y(n) = \sum_{j=0}^{N} b_k \times x[n - j]
 While its frequency response is given by:
 
 ```math
-H(w) = \sum_{j=0}^{N} b_k \times exp^{-jwn}
+H(w) = \sum_{j=0}^{N} b_k \times e^{-jwn}
 ```
 
 
-In order to test the time response of the filter you can create the mex function using the command `mex -R2018a FIR_LP_Rectangular.c`. After this, the following commands can be run in MATLAB:
+In order to test the time response of the filter you need to create the mex function in MATLAB using the command `mex -R2018a FIR_LP_Rectangular.c`. When calling the function you need to do it as follows:
+
+```hs
+FIR_LP_Rectangular(input_signal, filter_order, cutoff_frequency, sampling_frequency);
+```
+
+Overall, the following MATLAB code helps plotting the time response:
 
 ```hs
 fs = 20000;
@@ -29,4 +35,11 @@ hold on
 plot(filt_data, 'blue')
 ```
 
-Here, we are passing a signal with a frequency of 5KHz to our filter, depending on the cutoff frequency declared when creating the filter, the signal might be allowed or attenuated. In this case, the cutoff frequency is 2.5KHz, so the signal will be attenuated. 
+Here, a signal with a frequency of 5KHz through the filter, depending on the cutoff frequency declared when creating the filter, the signal might be allowed or attenuated. In this case, the cutoff frequency is 2.5KHz, so the signal will be attenuated.
+
+On the other hand, the frequency response is also quite easy to plot:
+
+```hs
+f = 0:10000/512:10000;
+plot(f, 20*log10(abs(freq_response)))
+```
