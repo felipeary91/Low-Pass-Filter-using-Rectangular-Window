@@ -5,7 +5,7 @@
 #include <omp.h>
 
 
-void MATLAB_main(mxComplexDouble*, double*, double*, size_t, double, double, double);
+void MATLAB_main(mxComplexDouble*, double*, double*, size_t, double, double, double, double);
 
 #include "mex.h"
 
@@ -16,8 +16,8 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 	mxComplexDouble* w;	//w is the complex vector output 
 	size_t mrows, ncols, numb_elements;
 
-	//Verifying that we have three inputs and two outputs
-	if (nrhs != 4) {
+	//Verifying that we have six inputs and two outputs
+	if (nrhs != 5) {
 		mexErrMsgIdAndTxt("MATLAB:xtimesy:invalidNumInputs", "Invalid number of inputs.");
 	}
 	if (nlhs != 2) {
@@ -25,9 +25,10 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 	}
 
 	//Getting the value from input arguments
-	multiplier[0] = mxGetScalar(prhs[1]);	//Filter order
-	multiplier[1] = mxGetScalar(prhs[2]);	//Cut-off frequency
-	multiplier[2] = mxGetScalar(prhs[3]);	//Sampling frequency
+	multiplier[0] = mxGetScalar(prhs[1]);	//f_passband
+	multiplier[1] = mxGetScalar(prhs[2]);	//f_stopband
+	multiplier[2] = mxGetScalar(prhs[3]);	//f_sampling
+	multiplier[3] = mxGetScalar(prhs[4]);	//ripple_stopband
 
 	//Getting the pointer to the input array
 	y = mxGetDoubles(prhs[0]);
@@ -52,5 +53,5 @@ void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
 	//Getting the pointer to the complex output array
 	w = mxGetComplexDoubles(plhs[1]);
 
-	MATLAB_main(w, z, y, numb_elements, multiplier[0], multiplier[1], multiplier[2]);
+	MATLAB_main(w, z, y, numb_elements, multiplier[0], multiplier[1], multiplier[2], multiplier[3]);
 }
