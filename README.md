@@ -18,7 +18,7 @@ H(w) = \sum_{j=0}^{N} b_k \times e^{-jwn}
 In order to test the time response of the filter you need to create the mex function in MATLAB using the command `mex -R2018a FIR_LP_Rectangular.c`. When calling the function you need to do it passing the parameters shown below:
 
 ```hs
-FIR_LP_Rectangular(input_signal, filter_order, cutoff_frequency, sampling_frequency);
+FIR_LP_Rectangular(input_signal, passband_frequency, stopband_frequency, sampling_frequency, stopband_ripple);
 ```
 
 Overall, the following MATLAB code helps plotting the time response:
@@ -26,18 +26,18 @@ Overall, the following MATLAB code helps plotting the time response:
 ```hs
 fs = 20000;
 dt = 1/fs;
-F = 5000; 
+F = 2000; 
 t = 0:dt:0.0025;
 x = sin(2*pi*F*t);
 plot(x, 'red')
-[filt_data, freq_response] = FIR_LP_Rectangular(x, 20, 2500, 20000);
+[filt_data, freq_response] = FIR_LP_Rectangular(x, 2000, 3000, 20000, 0.01);
 hold on
 plot(filt_data, 'blue')
 ```
 
-Here, a signal with a frequency of 5KHz through the filter, depending on the cutoff frequency declared when creating the filter, the signal might be allowed or attenuated. In this case, the cutoff frequency is 2.5KHz, so the signal will be attenuated.
+Here, a signal with a frequency of 2KHz is passed through the filter, depending on the cutoff frequency (which is half the sum of the passband and the stopband frequencies), the signal might be allowed or attenuated. In this case, the cutoff frequency is ~2.5KHz, so the signal will be allowed.
 
-On the other hand, the frequency response is also quite easy to plot:
+On the other hand, the frequency response (with a length of 512 points) is also quite easy to plot:
 
 ```hs
 f = 0:10000/512:10000;
