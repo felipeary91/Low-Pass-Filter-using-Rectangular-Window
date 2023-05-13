@@ -23,13 +23,13 @@ void MATLAB_main(mxComplexDouble *freq_resp, double *filt_data, double *input_da
 
 	//Verifying if Rectangular Window can be used based
 	//on the given stopband ripple
-	if ((- 20 * log10(ripple_stopband)) > -44) {
+	if ((- 20 * log10(ripple_stopband)) < 23) {
 		printf("Peak stopband attenuation is %0.1f dB, Rectangular Window can be used.\n", -20 * log10(ripple_stopband));
 	}
 	else
 	{
-		printf("Peak stopband attenuation is greater lower than -44 dB, Rectangular Window cannot be used.\n");
-		exit(0);
+		printf("Peak stopband attenuation is lower than -23 dB, Rectangular Window cannot be used.\n");
+		return;
 	}
 
 	//Calculating normalized passband and stopband frequencies
@@ -40,7 +40,7 @@ void MATLAB_main(mxComplexDouble *freq_resp, double *filt_data, double *input_da
 	f_cutoff = (f_passband_norm + f_stopband_norm) / 2;
 
 	//Calculating filter_order
-	filter_order = (8 * acos(-1)) / (f_stopband_norm - f_passband_norm);
+	filter_order = (4 * acos(-1)) / (f_stopband_norm - f_passband_norm);
 	if ((filter_order % 2) != 0) {
 		filter_order += 1;
 	}
