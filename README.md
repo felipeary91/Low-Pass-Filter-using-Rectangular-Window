@@ -44,4 +44,4 @@ f = 0:10000/512:10000;
 plot(f, 20*log10(abs(freq_response)))
 ```
 
-**Note:** As the order of FIR filters increase, the delay of the output increases based on `filter_order/(2 * sampling_frequency)`. In this implementation the delay is not compensated.
+**Note:** As the order of FIR filters increase, the delay of the output increases based on $\frac{filterOrder}{2 * samplingFrequency}$. In this implementation the delay is not compensated.
